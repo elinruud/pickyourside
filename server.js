@@ -36,9 +36,17 @@ app.prepare().then(() => {
   });
 
   parser.on("data", (data) => {
-    console.log("Arduino:", data);
+    const message = data.trim();
+    console.log("Arduino:", message);
 
-    io.emit("vote", data);
+    const [type, value] = message.split(":");
+    const vote = Number(value);
+    if (type === "YES") {
+      io.emit("voteYes", value);
+    }
+    if (type === "NO") {
+      io.emit("voteNo", value);
+    }
   });
 
   httpServer.listen(portNumber, () => {
