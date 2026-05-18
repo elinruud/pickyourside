@@ -47,16 +47,16 @@ export default function VoteDisplay() {
 
   return (
     <>
-      <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-        Vote Yes: {yesVotes}
-      </h1>
-      <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-        Vote No: {noVotes}
-      </h1>
-
-      <p className="text-sm text-zinc-500">
-        Last Arduino message: {yesVotes || "None"}
-      </p>
+        <div className="flex flex-col  flex-1  bg-amber-400 w-full items-center justify-between py-50 px-16 dark:bg-black sm:items-start">
+          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
+            Vote Yes: {yesVotes}
+          </h1>
+        </div>
+        <div className="flex flex-col  flex-1  bg-amber-500 w-full items-center gap-6 justify-between py-50 px-16 text-center sm:items-end">
+          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
+            Vote No: {noVotes}
+          </h1>
+        </div>
     </>
   );
 }

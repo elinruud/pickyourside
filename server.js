@@ -17,7 +17,7 @@ app.prepare().then(() => {
   const io = new Server(httpServer);
 
   const arduinoPort = new SerialPort({
-    path: "/dev/cu.usbmodem14101",
+    path: "/dev/cu.usbmodem14201",
     baudRate: 9600,
     dataBits: 8,
     parity: "none",
