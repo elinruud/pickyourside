@@ -7,37 +7,26 @@ export default function VoteDisplay() {
   const [yesVotes, setYesVotes] = useState("0");
   const [noVotes, setNoVotes] = useState("0");
 
+  const yes = Number(yesVotes || 0);
+  const no = Number(noVotes || 0);
+
+  const total = yes + no;
+
+  const yesRatio = total === 0 ? 0.5 : yes / total;
+  const noRatio = total === 0 ? 0.5 : no / total;
+
+  const yesPercent = Math.round(yesRatio * 100);
+  const noPercent = Math.round(noRatio * 100);
+
   useEffect(() => {
     const socket = io();
 
     socket.on("voteYes", (data: string) => {
-      
-        const value = Number(data.trim());
-        const vote = Number(yesVotes);
-
-        if (value > vote) {
-            setYesVotes(data);
-        }
-    
+      setYesVotes(data);
     });
 
-    return () => {
-      socket.disconnect();
-    };
-  }, []);
-
-  useEffect(() => {
-    const socket = io();
-
     socket.on("voteNo", (data: string) => {
-      
-        const value = Number(data.trim());
-        const vote = Number(noVotes);
-
-        if (value > vote) {
-            setNoVotes(data);
-        }
-    
+      setNoVotes(data);
     });
 
     return () => {
@@ -46,17 +35,49 @@ export default function VoteDisplay() {
   }, []);
 
   return (
-    <>
-        <div className="flex flex-col  flex-1  bg-amber-400 w-full items-center justify-between py-50 px-16 dark:bg-black sm:items-start">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            Vote Yes: {yesVotes}
-          </h1>
+    <div className="flex w-screen h-dvh relative overflow-hidden">
+
+      {/* LEFT */}
+      <div
+        className="relative transition-all duration-500"
+        style={{
+          width: `${noRatio * 100}%`,
+          backgroundColor: "#FFAE74",
+        }}
+      >
+        {/* CHEX */}
+      
+        <div
+          className="absolute left-6 top-1/2 -translate-y-1/2 z-20"
+          style={{ transform: "translateY(-50%) rotate(90deg)" }}
+        >
+          <div className="text-center text-[#444] font-bold">
+            <div className="text-[28px] tracking-wide">CHEX</div>
+            <div className="text-[44px] leading-none">{noVotes}</div>
+          </div>
         </div>
-        <div className="flex flex-col  flex-1  bg-amber-500 w-full items-center gap-6 justify-between py-50 px-16 text-center sm:items-end">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            Vote No: {noVotes}
-          </h1>
+      </div>
+
+      
+      {/* RIGHT */}
+      <div
+        className="relative transition-all duration-500"
+        style={{
+          width: `${yesRatio * 100}%`,
+          backgroundColor: "#846BFF",
+        }}
+      >
+        {/* KEX */}
+        <div
+          className="absolute right-6 top-1/2 -translate-y-1/2 z-20"
+          style={{ transform: "translateY(-50%) rotate(-90deg)" }}
+        >
+          <div className="text-center text-[#444] font-bold">
+            <div className="text-[28px] tracking-wide">KEX</div>
+            <div className="text-[44px] leading-none">{yesVotes}</div>
+          </div>
         </div>
-    </>
+      </div>
+    </div>
   );
 }
